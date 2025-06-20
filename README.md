@@ -1,6 +1,6 @@
 # Bayesian Dropout Reproduction
 
-This repository contains the final project for the **ASI (Applied Statistical Inference)** course. It reproduces core results from the following foundational paper in Bayesian deep learning:
+This repository contains the final project for the **ASI (Advanced Statistical Inference)** course. It reproduces core results from the following foundational paper in Bayesian deep learning:
 
 **Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning**  
 by *Yarin Gal and Zoubin Ghahramani (2016)*  
