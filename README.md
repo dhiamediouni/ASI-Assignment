@@ -40,20 +40,32 @@ The model is trained and evaluated on the **Mauna Loa CO₂ concentration data**
 
 - **Forward Passes**: Multiple stochastic forward passes are performed at test time to estimate the predictive distribution.
 
-- **Uncertainty Estimation**:  
-  \( \text{Var}(\hat{y}) = \text{Var}_{\text{MC}}(\hat{y}) + \tau^{-1} \)
+- **Uncertainty Estimation**:
 
-- **Loss Function**:  
-  \( \text{Loss} = \text{MSE} + \lambda \sum ||w||^2 \)  
+  $$
+  \text{Var}(\hat{y}) = \text{Var}_{\text{MC}}(\hat{y}) + \tau^{-1}
+  $$
+
+- **Loss Function**:
+
+  $$
+  \text{Loss} = \text{MSE} + \lambda \sum ||w||^2
+  $$
+
   where \( \lambda \) is the L2 regularization coefficient.
 
-- **Precision Estimation**:  
-  \( \tau = \frac{p \cdot l^2}{2N\lambda} \)  
+- **Precision Estimation**:
+
+  $$
+  \tau = \frac{p \cdot l^2}{2N\lambda}
+  $$
+
   where:  
   - \( p \): dropout probability  
   - \( l \): length scale  
   - \( N \): number of data points  
   - \( \lambda \): weight decay (L2 regularization)
+
 
 
 ---
