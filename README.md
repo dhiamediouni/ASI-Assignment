@@ -1,114 +1,61 @@
-# 🧠 Bayesian Dropout for Time-Series Regression
+# Bayesian Deep Learning with MC Dropout
 
-This project is a reproduction and extension of the seminal work:
+*Project by Sarra Gharsallah and Mohamed Dhia Mediouni*  
+*For the ASI (Advanced Statistical Inference) lecture at EURECOM, Spring 2025*
 
+This repository contains a unified notebook reproducing the experiments from the seminal paper  
 **"Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning"**  
-*Yarin Gal and Zoubin Ghahramani (2016)*  
-📄 [arXiv:1506.02142](https://arxiv.org/abs/1506.02142)
-
-It demonstrates how **MC Dropout** can be used for uncertainty estimation in deep learning, applied to the **Mauna Loa CO₂ time series** dataset.
+by Yarin Gal and Zoubin Ghahramani.
 
 ---
 
-## 🎯 Objective
+## Project Overview
 
-This project was created as part of the **ASI (Advanced Statistical Inference)** course, with goals to:
+The notebook implements and analyzes three distinct settings demonstrating Monte Carlo (MC) Dropout as a Bayesian approximation technique:
 
-- Understand and implement a Bayesian approach to deep learning
-- Reproduce and visualize key results from the Gal & Ghahramani paper
-- Evaluate uncertainty-aware predictions on real-world time-series data
+1. **Regression on UCI Dataset (Boston Housing)**  
+2. **Classification on MNIST**  
+3. **Reinforcement Learning with MC Dropout Deep Q-Network (DQN)**
 
----
-
-## 📊 Dataset
-
-The model is trained and evaluated on the **Mauna Loa CO₂ concentration data** (`co2-mm-mlo.csv`), which contains monthly atmospheric CO₂ measurements from 1958 to present.
+Each part links theoretical concepts from the paper to practical code implementations and includes detailed explanations.
 
 ---
 
-## 📁 Project Structure
+## Part 1: Regression with MC Dropout on Boston Housing Dataset
 
-- `mc_dropout_full_notebook.ipynb` – Main implementation notebook
-- `co2-mm-mlo.csv` – Cleaned CO₂ dataset
-- `README.md` – Project overview and documentation
-
----
-
-## 🧠 Key Methods and Concepts
-
-- **MC Dropout**: Dropout is used during both training and inference to approximate the Bayesian posterior predictive distribution.
-
-- **Forward Passes**: Multiple stochastic forward passes are performed at test time to estimate the predictive distribution.
-
-- **Uncertainty Estimation**:
-
-  $$
-  \text{Var}(\hat{y}) = \text{Var}_{\text{MC}}(\hat{y}) + \tau^{-1}
-  $$
-
-- **Loss Function**:
-
-  $$
-  \text{Loss} = \text{MSE} + \lambda \sum ||w||^2
-  $$
-
-  where \( \lambda \) is the L2 regularization coefficient.
-
-- **Precision Estimation**:
-
-  $$
-  \tau = \frac{p \cdot l^2}{2N\lambda}
-  $$
-
-  where:  
-  - \( p \): dropout probability  
-  - \( l \): length scale  
-  - \( N \): number of data points  
-  - \( \lambda \): weight decay (L2 regularization)
-
-
+- A fully connected neural network with dropout is trained on the Boston Housing dataset for regression.  
+- The training objective combines mean squared error with weight decay, corresponding to a variational inference interpretation.  
+- At test time, multiple stochastic forward passes with dropout active are performed to estimate the predictive mean and uncertainty (variance).  
+- The model’s performance is evaluated using Root Mean Squared Error (RMSE) and predictive log-likelihood, quantifying both accuracy and uncertainty.  
+- Visualization shows predictions with uncertainty intervals, demonstrating that MC Dropout effectively captures model confidence, especially in regions with less data.
 
 ---
 
-## 🧪 Model Architecture
+## Part 2: Classification with MC Dropout on MNIST
 
-- Fully connected neural network with ReLU activations
-- Dropout layers placed before every linear layer (including inference time)
-- Tunable hyperparameters:
-  - Hidden dimensions
-  - Dropout probability
-  - Learning rate
-  - L2 weight decay (regularization)
-  - Number of MC samples
+- A convolutional neural network with dropout layers approximates a Bayesian classifier on the MNIST handwritten digits dataset.  
+- MC Dropout is used at test time by performing multiple stochastic forward passes to estimate predictive class probabilities and uncertainty.  
+- Model performance is measured by accuracy and predictive log-likelihood.  
+- Uncertainty is visualized via predictive entropy, highlighting samples where the model is less confident due to ambiguity or noise.  
+- Additional visualization shows the distribution of predictive confidence across the test set, confirming that the model expresses calibrated uncertainty.
 
 ---
 
-## 📈 Results & Visualization
+## Part 3: Reinforcement Learning Exploration with Bayesian DQN
 
-- Captures temporal trends and expresses meaningful uncertainty
-- Uncertainty is high in extrapolated regions and sparse data zones
-- Evaluation Metrics:
-  - **Root Mean Squared Error (RMSE)**
-  - **Predictive Log-Likelihood**
-- Visualizations include:
-  - Predictions with confidence intervals
-  - Comparison of deterministic vs Bayesian predictions
-  - Error bands and model variance
+- The MC Dropout technique is applied to Deep Q-Networks (DQN) to incorporate model uncertainty into reinforcement learning.  
+- Dropout is applied during both training and action selection, enabling stochastic Q-value estimates that capture epistemic uncertainty.  
+- Action selection uses MC sampling to approximate the expected Q-values, favoring exploration of uncertain actions rather than relying on traditional ε-greedy strategies.  
+- The agent is trained on the CartPole environment, with a replay buffer and target network updates.  
+- Training results show that uncertainty-driven exploration improves sample efficiency and leads to stable learning performance over episodes.
 
 ---
 
-## ⚙️ Dependencies
+## Dependencies
 
-Tested with Python 3.8+. Required packages:
-
-- numpy
-- pandas
-- matplotlib
-- seaborn
-- scikit-learn
-- torch
-
-To install dependencies:
-
-```bash
-pip install -r requirements.txt
+- Python 3.8+  
+- PyTorch  
+- NumPy, SciPy, Scikit-learn  
+- Matplotlib, Plotly  
+- Torchvision (for MNIST)  
+- Gym (for RL experiments)  
