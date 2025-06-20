@@ -36,21 +36,36 @@ The model is trained and evaluated on the **Mauna Loa CO₂ concentration data**
 
 ## 🧠 Key Methods and Concepts
 
-- **MC Dropout**: Dropout is used during both training and inference to approximate Bayesian posterior predictive distribution
-- **Forward Passes**: Multiple stochastic forward passes used at test time
+- **MC Dropout**: Dropout is used during both training and inference to approximate the Bayesian posterior predictive distribution.
+
+- **Forward Passes**: Multiple stochastic forward passes are performed at test time to estimate the predictive distribution.
+
 - **Uncertainty Estimation**:
-  \[
-  \text{Var}(y^*) = \text{Var}_{\text{MC}}(y^*) + \tau^{-1}
-  \]
+
+  $$ 
+  \text{Var}(\hat{y}) = \text{Var}_{\text{MC}}(\hat{y}) + \tau^{-1} 
+  $$
+
 - **Loss Function**:
-  \[
-  \text{MSE Loss} + \lambda \sum ||w||^2 \quad \text{(L2 regularization)}
-  \]
+
+  $$
+  \text{Loss} = \text{MSE} + \lambda \sum ||w||^2
+  $$
+
+  where \( \lambda \) is the L2 regularization coefficient.
+
 - **Precision Estimation**:
-  \[
-  \tau = \frac{p l^2}{2N\lambda}
-  \]
-  where \( p \) = dropout probability, \( l \) = length scale, \( N \) = number of data points, \( \lambda \) = weight decay
+
+  $$
+  \tau = \frac{p \cdot l^2}{2N\lambda}
+  $$
+
+  where:
+  - \( p \): dropout probability  
+  - \( l \): length scale  
+  - \( N \): number of data points  
+  - \( \lambda \): weight decay (L2 regularization)
+
 
 ---
 
